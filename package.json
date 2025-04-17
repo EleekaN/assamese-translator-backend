@@ -1,0 +1,9 @@
+{
+    "name": "assamese-translator-backend",
+    "version": "1.0.0",
+    "main": "api/translate.js",
+    "dependencies": {
+      "axios": "^1.4.0"
+    }
+  }
+  
