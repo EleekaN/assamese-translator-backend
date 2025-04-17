@@ -1,7 +1,6 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-  // ✅ Handle preflight request for CORS
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -16,6 +15,9 @@ module.exports = async (req, res) => {
   }
 
   const { text, source, target } = req.body;
+
+  console.log("Incoming request body:", req.body);
+
   const apiKey = process.env.GOOGLE_API_KEY;
 
   try {
@@ -33,9 +35,12 @@ module.exports = async (req, res) => {
       }
     );
 
+    console.log("Translation API response:", response.data);
+
     const translatedText = response.data.data.translations[0].translatedText;
     res.status(200).json({ translatedText });
   } catch (err) {
-    res.status(500).json({ error: 'Translation failed' });
+    console.error("Translation failed:", err.response?.data || err.message);
+    res.status(500).json({ error: 'Translation failed', details: err.message });
   }
 };
